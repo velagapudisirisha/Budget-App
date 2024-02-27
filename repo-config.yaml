@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Repository
+metadata:
+  name: my-private-repo
+  namespace: argocd
+spec:
+  type: git
+  repo: apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rails-app
+  namespace: argocd
+spec:
+  destination:
+    server: https://192.168.59.103:8443  # Kubernetes API server address
+    namespace: default  # Namespace where your application is deployed
+  source:
+    repoURL:https://github.com/velagapudisirisha/Budget-App.git  # Your private GitHub repository URL
+    path: /Budget-App  # Path to your Kubernetes manifest files in the repository
+    targetRevision: master  # Branch name or commit hash
+  project: default  # ArgoCD project name
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true  # Your private GitHub repository URL
+  usernameSecret:
+    name: argocd-repo-secret
+    key: admin
+  passwordSecret:
+    name: argocd-repo-secret
+    key: Sirisha
